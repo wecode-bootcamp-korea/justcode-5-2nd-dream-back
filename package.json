@@ -1,0 +1,42 @@
+{
+  "name": "justcode-5-2nd-dream-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "distribute": "npm i && pm2 start server.js --name justcode-5-2nd-dream-back -i max"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wecode-bootcamp-korea/justcode-5-2nd-dream-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wecode-bootcamp-korea/justcode-5-2nd-dream-back/issues"
+  },
+  "homepage": "https://github.com/wecode-bootcamp-korea/justcode-5-2nd-dream-back#readme",
+  "devDependencies": {
+    "@prisma/client": "^4.0.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.18",
+    "pm2": "^5.1.2",
+    "prettier": "^2.7.1",
+    "prisma": "^4.0.0"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "to": "^0.2.9",
+    "update": "^0.7.4"
+  },
+  "keywords": []
+}
