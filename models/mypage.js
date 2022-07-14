@@ -1,40 +1,66 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function getWishListByUserId(userid) {
-  console.log('getWishList');
-  const dbWishList = await prisma.$queryRaw`
+async function getMypageByUserId(userid) {
+  console.log('getMypage');
+  const dbMypage = await prisma.$queryRaw`
 
-  SELECT
-    r.id,
-    r.price,
-    r.address,
-    r.name,
-    r.description,
-    p.file_url
-
-  FROM room as r
-  
-  LEFT JOIN wishlist on wishlist.room_id = r.id
-  JOIN(
-	SELECT MAX(photo.id) AS photo_id,room_id, MAX(file_url) as file_url
-
-	FROM photo
-
-	GROUP BY room_id
-) 	AS p ON r.id = p.room_id
-  
-WHERE wishlist.user_id = ${userid}
 
   `;
-  // console.log('test: ', dbWishList);
   // return res.status(200).json({ message: 'CREATED' });
-  return dbWishList;
+  return dbMypage;
 }
-// export default getUsers;
+
+async function postMypageByuserId(userid) {
+  console.log('postMypage');
+  const dbMypage = await prisma.$queryRaw`
+
+
+  `;
+  // return res.status(200).json({ message: 'CREATED' });
+  return dbMypage;
+}
+
+async function putMypageByuserId(userid) {
+  console.log('putMypage');
+  const dbMypage = await prisma.$queryRaw`
+
+
+  `;
+  // return res.status(200).json({ message: 'CREATED' });
+  return dbMypage;
+}
+
+async function deleteMypageByuserId(userid) {
+  console.log('deleteMypage');
+  const dbMypage = await prisma.$queryRaw`
+
+
+  `;
+  // return res.status(200).json({ message: 'CREATED' });
+  return dbMypage;
+}
+
+async function getSaleMypageByuserId(userid) {
+  console.log('getSaleMypage');
+  const dbMypage = await prisma.$queryRaw`
+
+
+  `;
+  // return res.status(200).json({ message: 'CREATED' });
+  return dbMypage;
+}
+
+async function getPurchaseMypageByuserId(userid) {
+  console.log('getPurchaseMypage');
+  const dbMypage = await prisma.$queryRaw`
+
+  `;
+  // return res.status(200).json({ message: 'CREATED' });
+  return dbMypage;
+}
 
 async function DeletWishList(id, room_id) {
-  // console.log('getWishList', DeletWishList);
   const dbWishList = await prisma.$queryRaw`
   DELETE FROM wishlist WHERE user_id = ${id} and room_id = ${room_id}
  
@@ -57,4 +83,11 @@ async function InsertWishList(id, room_id) {
   return dbWishList;
 }
 
-module.exports = { getWishListByUserId, DeletWishList, InsertWishList };
+module.exports = {
+  getMypageByUserId,
+  postMypageByuserId,
+  putMypageByuserId,
+  deleteMypageByuserId,
+  getSaleMypageByuserId,
+  getPurchaseMypageByuserId,
+};

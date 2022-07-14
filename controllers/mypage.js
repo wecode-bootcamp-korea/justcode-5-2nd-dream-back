@@ -1,8 +1,19 @@
 const {
-  getWishListByUserId,
-  DeletWishList,
-  InsertWishList,
+  getMypageByUserId,
+  postMypageByuserId,
+  putMypageByuserId,
+  deleteMypageByuserId,
+  getSaleMypageByuserId,
+  getPurchaseMypageByuserId,
 } = require('../models/mypage');
+
+const mypage = async (req, res) => {
+  console.log(`in controllers`);
+  const userid = req.params.id;
+  const mypage = await getMypageByUserId(userid);
+  console.log(`before return ${mypage}`);
+  return res.status(200).json({ data: mypage });
+};
 
 const wishList = async (req, res) => {
   console.log(`in controllers`);
@@ -35,4 +46,4 @@ const insertwishList = async (req, res, next) => {
     next(err);
   }
 };
-module.exports = { wishList, deletwishList, insertwishList };
+module.exports = { mypage };
