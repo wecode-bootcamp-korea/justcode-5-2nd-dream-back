@@ -7,11 +7,9 @@ const {
   getPurchaseMypageByuserId,
 } = require('../models/mypage');
 
-const mypage = async (req, res) => {
-  console.log(`in controllers`);
+const getmypage = async (req, res) => {
   const userid = req.params.id;
   const mypage = await getMypageByUserId(userid);
-  console.log(`before return ${mypage}`);
   return res.status(200).json({ data: mypage });
 };
 
@@ -46,4 +44,4 @@ const insertwishList = async (req, res, next) => {
     next(err);
   }
 };
-module.exports = { mypage };
+module.exports = { getmypage };

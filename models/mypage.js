@@ -5,6 +5,18 @@ async function getMypageByUserId(userid) {
   console.log('getMypage');
   const dbMypage = await prisma.$queryRaw`
 
+  SELECT
+  u.id,
+  u.email,
+  u.password,
+  u.phone,
+  u.name,
+  u.image,
+  address.address
+
+ FROM user as u
+ JOIN address ON address.user_id =u.id
+ WHERE u.id = ${userid}
 
   `;
   // return res.status(200).json({ message: 'CREATED' });
