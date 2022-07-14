@@ -1,7 +1,7 @@
 CREATE TABLE `user` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255),
   `phone` varchar(255),
   `name` varchar(255),
   `image` varchar(255),
