@@ -1,10 +1,10 @@
 const {
   getMypageByUserId,
-  postMypageByuserId,
   putMypageByuserId,
-  deleteMypageByuserId,
-  getSaleMypageByuserId,
-  getPurchaseMypageByuserId,
+  putMyPageByPhone,
+  postMyPageAdd,
+  putMyPageAdd,
+  deleteMyPageAdd,
 } = require('../models/mypage');
 
 const getmypage = async (req, res) => {
@@ -13,35 +13,61 @@ const getmypage = async (req, res) => {
   return res.status(200).json({ data: mypage });
 };
 
-const wishList = async (req, res) => {
-  console.log(`in controllers`);
+const putmypage = async (req, res) => {
   const userid = req.params.id;
-  const wishList = await getWishListByUserId(userid);
-  console.log(`before return ${wishList}`);
-
-  return res.status(200).json({ data: wishList });
+  const name = req.body.name;
+  const mypage = await putMypageByuserId(userid, name);
+  return res.status(200).json({ message: 'CREATED' });
 };
 
-const deletwishList = async (req, res) => {
-  console.log(req.params);
-  const { id, roomid } = req.params;
-  // const id = req.params.id
-  // const roomid = req.params.roomid
-
-  const wishList = await DeletWishList(id, roomid);
-
-  return res.status(200).json({ message: 'DELET SES' });
+const putMyPhone = async (req, res) => {
+  // console.log(req.params);
+  const userid = req.params.id;
+  const phone = req.body.phone;
+  const mypage = await putMyPageByPhone(userid, phone);
+  return res.status(200).json({ message: 'CREATED' });
 };
 
-const insertwishList = async (req, res, next) => {
-  try {
-    const { user_id, room_id } = req.body;
-    console.log(req.body);
-    const wishList = await InsertWishList(user_id, room_id);
-
-    return res.status(200).json({ message: 'CREATED' });
-  } catch (err) {
-    next(err);
-  }
+const postMyPageAddress = async (req, res) => {
+  // console.log(req.params);
+  const userid = req.params.id;
+  const address = req.body.address;
+  const mypage = await postMyPageAdd(address, userid);
+  return res.status(200).json({ message: 'CREATED' });
 };
-module.exports = { getmypage };
+
+const putaddress = async (req, res) => {
+  console.log(req.params, '확인');
+  const id = req.params.id;
+  const address = req.body.address;
+  const mypage = await putMyPageAdd(id, address);
+  return res.status(200).json({ message: 'CREATED' });
+};
+
+const deleteAddress = async (req, res) => {
+  console.log(req.params, '확인');
+  const id = req.params.id;
+
+  const mypage = await deleteMyPageAdd(id);
+  return res.status(200).json({ message: 'DELTET_CREATED' });
+};
+
+// const insertwishList = async (req, res, next) => {
+//   try {
+//     const { user_id, room_id } = req.body;
+//     console.log(req.body);
+//     const wishList = await InsertWishList(user_id, room_id);
+
+//     return res.status(200).json({ message: 'CREATED' });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+module.exports = {
+  getmypage,
+  putmypage,
+  putMyPhone,
+  postMyPageAddress,
+  putaddress,
+  deleteAddress,
+};
