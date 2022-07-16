@@ -19,7 +19,6 @@ async function getMypageByUserId(userid) {
  WHERE u.id = ${userid}
  GROUP BY address.user_id
   `;
-  // return res.status(200).json({ message: 'CREATED' });
   return dbMypage;
 }
 
