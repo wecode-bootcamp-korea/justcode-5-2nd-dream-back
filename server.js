@@ -11,6 +11,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(routes);
+<<<<<<< HEAD
+
+////////// TEST ///////////////
+app.get('/ping', (req, res) => {
+  res.json({ message: 'pong' });
+});
+///////////////////////////////
+=======
+>>>>>>> main
 
 const server = http.createServer(app);
 const PORT = process.env.PORT || 10010;
