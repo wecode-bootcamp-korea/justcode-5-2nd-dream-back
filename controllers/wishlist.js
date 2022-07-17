@@ -6,7 +6,8 @@ const {
 
 const getWishController = async (req, res, next) => {
   try {
-    const wish = await getWishService();
+    const userId = req.params.id;
+    const wish = await getWishService(userId);
     return res.status(201).json({ data: wish });
   } catch (err) {
     console.log(err);

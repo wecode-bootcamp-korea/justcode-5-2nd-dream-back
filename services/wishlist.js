@@ -10,8 +10,8 @@ const deleteWishService = async (user_id, product_id) => {
   await deleteWish(wishDTO);
 };
 
-const getWishService = async () => {
-  const wish = await getWish();
+const getWishService = async userId => {
+  const wish = await getWish(userId);
   return wish;
 };
 
