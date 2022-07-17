@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { postPurchase } = require('../controllers/purchase');
+const { getPurchase } = require('../controllers/purchase');
 
-router.get('/purchase/:id', postPurchase); //구매
+router.get('/purchase/:id', getPurchase); //구매
 module.exports = router;

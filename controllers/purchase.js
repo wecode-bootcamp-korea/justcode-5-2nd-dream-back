@@ -1,8 +1,9 @@
 const purchaseServices = require('../services/purchase');
 
-const postPurchase = async (req, res) => {
-  const userid = req.params.id;
-  const mypage = await purchaseServices.postPurchaseUserId(userid);
-  return res.status(200).json({ data: mypage });
+const getPurchase = async (req, res) => {
+  const id = req.params.id;
+  console.log(req);
+  const dbPurchase = await purchaseServices.getPurchaseUserId(id);
+  return res.status(200).json({ data: dbPurchase });
 };
-module.exports = { postPurchase };
+module.exports = { getPurchase };

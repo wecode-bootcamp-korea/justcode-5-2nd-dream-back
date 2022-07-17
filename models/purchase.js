@@ -1,12 +1,20 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const { postPurchaseUserId } = require('../controllers/purchase');
+const { getPurchaseUserId } = require('../controllers/purchase');
 
-async function postPurchaseUserId(id) {
+async function getPurchaseUserId(id) {
+  console.log(id);
   const dbPurchase = await prisma.$queryRaw`
+  SELECT
   
+  p.id
+
+  FROM product as p
+
+  WHERE product = ${id}
   `;
+  console.log(dbPurchase);
   return dbPurchase;
 }
 
-module.exports = { postPurchaseUserId };
+module.exports = { getPurchaseUserId };

@@ -1,9 +1,9 @@
 const purchasemodels = require('../models/purchase');
 
-async function postPurchaseUserId(userid) {
-  return await purchasemodels.postPurchaseUserId(userid);
+async function getPurchaseUserId(id) {
+  return await purchasemodels.getPurchaseUserId(id);
 }
 
 module.exports = {
-  postPurchaseUserId,
+  getPurchaseUserId,
 };
