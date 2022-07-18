@@ -1,8 +1,8 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function getPurchaseUserId(id) {
-  const dbPurchase = await prisma.$queryRaw`
+async function getInformationId(id) {
+  const dbInformation = await prisma.$queryRaw`
   SELECT
   
   p.id,
@@ -24,7 +24,7 @@ async function getPurchaseUserId(id) {
   pi.position
   
   `;
-  return dbPurchase;
+  return dbInformation;
 }
 
-module.exports = { getPurchaseUserId };
+module.exports = { getInformationId };

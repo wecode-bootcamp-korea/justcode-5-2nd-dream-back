@@ -1,8 +1,8 @@
-const purchaseServices = require('../services/purchase');
+const InformationServices = require('../services/purchase');
 
-const getPurchase = async (req, res) => {
+const getInformation = async (req, res) => {
   const id = req.params.id;
-  const dbPurchase = await purchaseServices.getPurchaseUserId(id);
-  return res.status(200).json({ data: dbPurchase });
+  const dbInformation = await InformationServices.getInformationId(id);
+  return res.status(200).json({ data: dbInformation });
 };
-module.exports = { getPurchase };
+module.exports = { getInformation };
