@@ -65,7 +65,6 @@ async function login(email, password) {
     });
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    console.log(decoded);
 
     return token;
   } else {
@@ -78,37 +77,33 @@ async function login(email, password) {
 const kakaoLogin = async code => {
   const userInfo = await getKakaoToken(code);
   const email = userInfo.data.kakao_account.email;
+  const nickname = userInfo.data.properties.nickname;
   const profileImage = userInfo.data.kakao_account.profile.profile_image_url;
   const id = userInfo.data.id;
-  const user = await userRepository.readUserByEmail(email);
-  const socialUser = await userRepository.readUserBySocialId(id);
+  const existingUser = await userRepository.getUserByEmail(email);
 
-  if (user && !socialUser) {
-    await userRepository.createSocialUser(id, user.id);
-    const token = jwt.sign({ id: user.user_id }, process.env.SECRET_KEY);
-    return token;
-  }
-  if (!user) {
-    return await kakaoSignUp(email, nickname, profileImage, id);
-  }
-  if (socialUser) {
-    const token = jwt.sign({ id: socialUser.user_id }, process.env.SECRET_KEY);
-    return token;
-  }
-};
-
-const kakaoSignUp = async (email, nickname, profileImage, id) => {
-  const result = await userRepository.createUser(
+  const createUserDTO = {
     email,
-    null,
     nickname,
-    nickname,
-    profileImage
-  );
-  await userRepository.createSocialUser(id, result.id);
-  const token = jwt.sign({ id: result.id }, process.env.SECRET_KEY);
-  return token;
+    profileImage,
+    id,
+  };
+
+  if (existingUser) {
+    const token = jwt.sign({ id: existingUser.id }, process.env.SECRET_KEY);
+    return token;
+  }
+
+  if (!existingUser) {
+    return await kakaoSignUp(createUserDTO);
+  }
 };
+
+async function kakaoSignUp(createUserDto) {
+  await userRepository.createUser(createUserDto);
+  const token = jwt.sign({ id: createUserDto.id }, process.env.SECRET_KEY);
+  return token;
+}
 
 const getKakaoToken = async code => {
   const tokenUrl = `https://kauth.kakao.com/oauth/token`;

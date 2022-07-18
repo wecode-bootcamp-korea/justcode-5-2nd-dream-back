@@ -1,9 +1,9 @@
-const { join, login } = require('../services/user');
+const userService = require('../services/user');
 
 const joinController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    await join(email, password);
+    await userService.join(email, password);
 
     return res.status(201).json({ message: 'SIGNUP_SUCCESS' });
   } catch (error) {
@@ -15,7 +15,7 @@ const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const token = await login(email, password);
+    const token = await userService.login(email, password);
 
     return res.status(201).json({ token });
   } catch (error) {
@@ -33,7 +33,6 @@ const kakao = async (_, res) => {
     };
     const params = new URLSearchParams(config).toString();
     const finalURI = `${baseUrl}?${params}`;
-
     res.redirect(finalURI);
   } catch (error) {
     res.status(400).json({ message: error.message });
