@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-const { getUserByEmail, createUser } = require('../models/user');
+const axios = require('axios');
+const userRepository = require('../models/user');
 const { createError } = require('../module/createError');
 
 const salt = bcrypt.genSaltSync();
@@ -22,6 +22,7 @@ function checkPasswordPattern(str) {
     return true;
   }
 }
+
 async function join(email, password) {
   if (!email.includes('@') || !email.includes('.')) {
     const error = createError('JOIN_ERROR', 400);
@@ -33,7 +34,7 @@ async function join(email, password) {
     throw error;
   }
 
-  const existingUser = await getUserByEmail(email);
+  const existingUser = await userRepository.getUserByEmail(email);
   if (existingUser) {
     const error = createError('EXISTING_USER', 409);
     throw error;
@@ -41,9 +42,9 @@ async function join(email, password) {
 
   const createUserDTO = {
     email,
-    password: bcrypt.hashSync(password, salt),
+    password: await bcrypt.hash(password, salt),
   };
-  await createUser(createUserDTO);
+  await userRepository.createUser(createUserDTO);
 }
 
 async function login(email, password) {
@@ -57,7 +58,7 @@ async function login(email, password) {
     throw error;
   }
 
-  const existingUser = await getUserByEmail(email);
+  const existingUser = await userRepository.getUserByEmail(email);
   if (bcrypt.compareSync(password, existingUser.password)) {
     const token = jwt.sign({ id: existingUser.id }, process.env.SECRET_KEY, {
       expiresIn: '1d',
@@ -74,4 +75,75 @@ async function login(email, password) {
   }
 }
 
-module.exports = { join, login };
+const kakaoLogin = async code => {
+  const userInfo = await getKakaoToken(code);
+  const email = userInfo.data.kakao_account.email;
+  const profileImage = userInfo.data.kakao_account.profile.profile_image_url;
+  const id = userInfo.data.id;
+  const user = await userRepository.readUserByEmail(email);
+  const socialUser = await userRepository.readUserBySocialId(id);
+
+  if (user && !socialUser) {
+    await userRepository.createSocialUser(id, user.id);
+    const token = jwt.sign({ id: user.user_id }, process.env.SECRET_KEY);
+    return token;
+  }
+  if (!user) {
+    return await kakaoSignUp(email, nickname, profileImage, id);
+  }
+  if (socialUser) {
+    const token = jwt.sign({ id: socialUser.user_id }, process.env.SECRET_KEY);
+    return token;
+  }
+};
+
+const kakaoSignUp = async (email, nickname, profileImage, id) => {
+  const result = await userRepository.createUser(
+    email,
+    null,
+    nickname,
+    nickname,
+    profileImage
+  );
+  await userRepository.createSocialUser(id, result.id);
+  const token = jwt.sign({ id: result.id }, process.env.SECRET_KEY);
+  return token;
+};
+
+const getKakaoToken = async code => {
+  const tokenUrl = `https://kauth.kakao.com/oauth/token`;
+  let accessToken;
+  try {
+    const result = await axios({
+      method: 'POST',
+      url: tokenUrl,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+      params: {
+        code,
+        grant_type: 'authorization_code',
+        client_id: process.env.CLIENT_ID,
+        redirect_uri: process.env.REDIRECT_URI,
+      },
+    });
+    accessToken = result.data.access_token;
+  } catch (error) {
+    throw error;
+  }
+  const userInfo = await getUserInfoByToken(accessToken);
+  return userInfo;
+};
+
+const getUserInfoByToken = async accessToken => {
+  let userInfo = await axios({
+    method: 'GET',
+    url: 'https://kapi.kakao.com/v2/user/me',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return userInfo;
+};
+
+module.exports = { join, login, kakaoLogin };

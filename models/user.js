@@ -1,5 +1,7 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
+
+let user = Prisma.UserCreateInput;
 
 async function getUserByEmail(email) {
   const [existingUser] = await prisma.$queryRaw`
