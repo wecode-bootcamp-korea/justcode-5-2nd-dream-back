@@ -19,10 +19,8 @@ async function getMypageByUserId(userid) {
  WHERE u.id = ${userid}
  GROUP BY address.user_id
   `;
-  // return res.status(200).json({ message: 'CREATED' });
   return dbMypage;
 }
-// 고유 주소 아이디값 쿼리
 
 async function putMypageByuserId(userId, name) {
   const dbMypage = await prisma.$queryRaw`
@@ -58,6 +56,42 @@ async function deleteMyPageAdd(id) {
   `;
   return dbMypage;
 }
+
+async function getpurchasehistory(id) {
+  const dbMypage = await prisma.$queryRaw`
+SELECT
+u.id,
+s.product_id,
+s.user_id,
+s.purchase_time,
+s.price,
+s.sell_status_id,
+s.purchase_id,
+ss.status,
+p.name,
+pi.url,
+pd.size_id,
+sz.size
+
+from user as u
+
+left JOIN sell as s on u.id = s.product_id
+
+left join sell_status as ss on s.sell_status_id = ss.id
+
+left join product as p on s.product_id = p.id
+
+left join product_detail as pd on p.id = pd.product_id
+
+left join size as sz on pd.size_id = sz.id
+
+left join product_images as pi on p.id = pi.id
+
+WHERE u.id = ${id}
+
+  `;
+  return dbMypage;
+}
 // async function putMypageByuserId(userId, address) {
 //   console.log(putMypageByuserId, 'address');
 //   const dbMypage = await prisma.$queryRaw`
@@ -74,4 +108,5 @@ module.exports = {
   postMyPageAdd,
   putMyPageAdd,
   deleteMyPageAdd,
+  getpurchasehistory,
 };
