@@ -1,9 +1,9 @@
-const purchasemodels = require('../models/purchase');
+const Informationmodels = require('../models/purchase');
 
-async function getPurchaseUserId(id) {
-  return await purchasemodels.getPurchaseUserId(id);
+async function getInformationId(id) {
+  return await Informationmodels.getInformationId(id);
 }
 
 module.exports = {
-  getPurchaseUserId,
+  getInformationId,
 };
