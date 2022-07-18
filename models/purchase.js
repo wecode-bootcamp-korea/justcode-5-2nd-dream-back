@@ -26,16 +26,12 @@ async function getInformationId(id) {
   `;
   return dbInformation;
 }
-async function putpurchase(userid) {
-  const dbInformation = await prisma.$queryRaw`
-  SELECT
-  u.id
-
-  FROM user u
-
-  WHERE u.id = ${userid}
+async function putpurchase(id, sell_status_id) {
+  console.log(sell_status_id, id, 'cd');
+  const dbpurchase = await prisma.$queryRaw`
+  UPDATE sell SET sell_status_id=${sell_status_id} WHERE id=${id} ;
   `;
-  return dbInformation;
+  return dbpurchase;
 }
 
 module.exports = { getInformationId, putpurchase };
