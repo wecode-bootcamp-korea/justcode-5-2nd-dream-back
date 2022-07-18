@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getUserByEmail(email) {
   const [existingUser] = await prisma.$queryRaw`
-      SELECT * FROM user WHERE email=${email}; 
+    SELECT * FROM user WHERE email=${email}; 
   `;
   return existingUser;
 }
@@ -15,9 +15,9 @@ async function createUser(createUserDto) {
 
   await prisma.$queryRaw`
     INSERT INTO
-    user (email, password, name, image, social_id)
+      user (email, password, name, image, social_id)
     VALUES (${email}, ${password}, ${nickname}, ${profileImage}, ${idString})
-    `;
+  `;
 }
 
 module.exports = { getUserByEmail, createUser };
