@@ -15,9 +15,20 @@ const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const token = await userService.login(email, password);
+    const { id, token } = await userService.login(email, password);
 
-    return res.status(201).json({ token });
+    return res.status(201).json({ id, token });
+  } catch (error) {
+    return res.status(error.statusCode || 500).json({ message: error.message });
+  }
+};
+
+const deleteUserController = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    await userService.deleteUser(userId);
+
+    return res.status(201).json({ message: 'DELETE_SUCCESS' });
   } catch (error) {
     return res.status(error.statusCode || 500).json({ message: error.message });
   }
@@ -43,10 +54,18 @@ const kakaoLogin = async (req, res) => {
   try {
     const code = req.query.code;
     const result = await userService.kakaoLogin(code);
-    res.redirect(`http://localhost:3000?token=${result}`);
+    res.redirect(
+      `http://localhost:3000?token=${result.token}&userId=${result.id}&email=${result.email}&nickname=${result.nickname}&profileImage=${result.profileImage}`
+    );
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-module.exports = { joinController, loginController, kakao, kakaoLogin };
+module.exports = {
+  joinController,
+  loginController,
+  deleteUserController,
+  kakao,
+  kakaoLogin,
+};
