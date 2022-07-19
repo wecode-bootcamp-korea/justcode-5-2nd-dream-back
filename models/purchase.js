@@ -5,27 +5,32 @@ async function getInformationId(id) {
   const dbInformation = await prisma.$queryRaw`
   SELECT
   
+  
+  ss.id,
+  pd.id,
+  pd.size_id,
+
   p.id,
   p.name,
   p.model_number,
+  
+  pi.id,
   pi.url,
   pi.position,
- 
-  JSON_ARRAYAGG(JSON_OBJECT("product_size_id",pd.size_id,"product_price",pd.price,"sell.id",s.id,"sell.sell_status_id",s.sell_status_id,"sell_status",ss.status)) as size_list
-
-  FROM product as p
-
-  LEFT JOIN sell AS s ON s.product_id = p.id 
-  LEFT JOIN sell_status AS ss ON ss.id = s.sell_status_id
-  LEFT JOIN product_images AS pi ON pi.product_id = p.id && pi.position 
-  LEFT JOIN product_detail AS pd ON pd.product_id = p.id
   
-  WHERE p.id = ${id}
+  JSON_ARRAYAGG(JSON_OBJECT("sell.id",s.id,"size_id",si.id,"size",si.size,"status",ss.status,"sell_status_id",s.sell_status_id,"price",s.price,"product_detail_id",s.product_detail_id)) AS size_list
 
-  GROUP BY p.id,
-  pi.url,
-  pi.position
-  
+  FROM sell as s
+
+LEFT JOIN sell_status AS ss ON ss.id = s.sell_status_id
+LEFT JOIN product_detail AS pd ON pd.id = s.product_detail_id
+LEFT JOIN size AS si ON si.id = pd.size_id
+LEFT JOIN product AS p ON p.id = pd.id
+LEFT JOIN product_images AS pi ON pi.product_id =p.id
+
+  WHERE s.id = ${id}
+
+  GROUP BY s.id,pi.id
   `;
   return dbInformation;
 }
