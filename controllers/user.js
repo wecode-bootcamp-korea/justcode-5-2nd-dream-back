@@ -23,6 +23,18 @@ const loginController = async (req, res) => {
   }
 };
 
+const deleteUserController = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    await userService.deleteUser(userId);
+
+    return res.status(201).json({ message: 'DELETE_SUCCESS' });
+  } catch (error) {
+    return res.status(error.statusCode || 500).json({ message: error.message });
+  }
+};
+
 const kakao = async (_, res) => {
   try {
     const baseUrl = 'https://kauth.kakao.com/oauth/authorize';
@@ -49,4 +61,10 @@ const kakaoLogin = async (req, res) => {
   }
 };
 
-module.exports = { joinController, loginController, kakao, kakaoLogin };
+module.exports = {
+  joinController,
+  loginController,
+  deleteUserController,
+  kakao,
+  kakaoLogin,
+};

@@ -35,6 +35,12 @@ async function login(email, password) {
   }
 }
 
+async function deleteUser(id) {
+  const existingUserNone = await userRepository.getUserById(id);
+  console.log(existingUserNone);
+  await userRepository.deleteUser(id);
+}
+
 const kakaoLogin = async code => {
   const userInfo = await getKakaoToken(code);
   const email = userInfo.data.kakao_account.email;
@@ -102,4 +108,4 @@ const getUserInfoByToken = async accessToken => {
   return userInfo;
 };
 
-module.exports = { join, login, kakaoLogin };
+module.exports = { join, login, deleteUser, kakaoLogin };
