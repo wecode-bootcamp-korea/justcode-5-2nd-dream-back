@@ -5,6 +5,7 @@ CREATE TABLE `user` (
   `phone` varchar(255),
   `name` varchar(255),
   `image` varchar(255),
+  `social_id` varchar(255),
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime ON UPDATE CURRENT_TIMESTAMP
 );

@@ -9,7 +9,7 @@ CREATE TABLE `product` (
   `sub_category_id` int,
   `brand_id` int,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY fk_product_brand_id_brand_id (brand_id) REFERENCES brand (id) ON DELETE CASCADE,
-  FOREIGN KEY fk_product_category_id_category_id (category_id) REFERENCES category (id) ON DELETE CASCADE,
-  FOREIGN KEY fk_product_sub_category_id_sub_category_id (sub_category_id) REFERENCES sub_category (id) ON DELETE CASCADE
+  CONSTRAINT fk_product_brand_id_brand_id FOREIGN KEY (brand_id) REFERENCES brand (id) ON DELETE CASCADE,
+  CONSTRAINT fk_product_category_id_category_id FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE,
+  CONSTRAINT fk_product_sub_category_id_sub_category_id FOREIGN KEY (sub_category_id) REFERENCES sub_category (id) ON DELETE CASCADE
 );
