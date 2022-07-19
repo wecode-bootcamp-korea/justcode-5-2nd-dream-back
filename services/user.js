@@ -22,13 +22,17 @@ async function join(email, password) {
 
 async function login(email, password) {
   const existingUser = await userRepository.getUserByEmail(email);
+  const userId = existingUser.id;
   if (bcrypt.compareSync(password, existingUser.password)) {
     const token = jwt.sign({ id: existingUser.id }, process.env.SECRET_KEY, {
       expiresIn: '1d',
     });
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
-
-    return token;
+    const userDto = {
+      id: userId,
+      token,
+    };
+    return userDto;
   } else {
     const error = createError('LOGIN_FAIL', 400);
     throw error;
@@ -41,7 +45,7 @@ async function deleteUser(id) {
     const error = createError('NO_USER', 409);
     throw error;
   }
-  await userRepository.deleteUser(email);
+  await userRepository.deleteUser(id);
 }
 
 const kakaoLogin = async code => {
@@ -51,6 +55,7 @@ const kakaoLogin = async code => {
   const profileImage = userInfo.data.kakao_account.profile.profile_image_url;
   const id = userInfo.data.id;
   const existingUser = await userRepository.getUserByEmail(email);
+  const userId = existingUser.id;
 
   const createUserDTO = {
     email,
@@ -61,7 +66,14 @@ const kakaoLogin = async code => {
 
   if (existingUser) {
     const token = jwt.sign({ id: existingUser.id }, process.env.SECRET_KEY);
-    return token;
+    const userDto = {
+      id: userId,
+      token,
+      email,
+      nickname,
+      profileImage,
+    };
+    return userDto;
   }
 
   if (!existingUser) {

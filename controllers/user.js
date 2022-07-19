@@ -15,9 +15,9 @@ const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const token = await userService.login(email, password);
+    const { id, token } = await userService.login(email, password);
 
-    return res.status(201).json({ token });
+    return res.status(201).json({ id, token });
   } catch (error) {
     return res.status(error.statusCode || 500).json({ message: error.message });
   }
@@ -55,6 +55,7 @@ const kakaoLogin = async (req, res) => {
     const code = req.query.code;
     const result = await userService.kakaoLogin(code);
     res.redirect(`http://localhost:3000?token=${result}`);
+    // res.status(201).json({ result });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
