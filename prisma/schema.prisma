@@ -7,8 +7,191 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model address {
+  id      Int     @id @default(autoincrement())
+  address String? @db.VarChar(255)
+  user_id Int?
+  user    user?   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_address_user_id_user_id")
+
+  @@index([user_id], map: "fk_address_user_id_user_id")
+}
+
+model brand {
+  id      Int       @id @default(autoincrement())
+  brand   String?   @db.VarChar(255)
+  product product[]
+}
+
+model category {
+  id           Int            @id @default(autoincrement())
+  category     String?        @db.VarChar(255)
+  product      product[]
+  size         size[]
+  sub_category sub_category[]
+}
+
+model product {
+  id                 Int                  @id @default(autoincrement())
+  name               String?              @db.VarChar(255)
+  comment            String?              @db.VarChar(255)
+  model_number       String?              @db.VarChar(255)
+  color              String?              @db.VarChar(255)
+  sex                String?              @db.VarChar(255)
+  category_id        Int?
+  sub_category_id    Int?
+  brand_id           Int?
+  created_at         DateTime?            @default(now()) @db.DateTime(0)
+  brand              brand?               @relation(fields: [brand_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_brand_id_brand_id")
+  category           category?            @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_category_id_category_id")
+  sub_category       sub_category?        @relation(fields: [sub_category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_sub_category_id_sub_category_id")
+  product_detail     product_detail[]
+  product_images     product_images[]
+  style_product_list style_product_list[]
+
+  @@index([brand_id], map: "fk_product_brand_id_brand_id")
+  @@index([category_id], map: "fk_product_category_id_category_id")
+  @@index([sub_category_id], map: "fk_product_sub_category_id_sub_category_id")
+}
+
+model product_detail {
+  id         Int      @id @default(autoincrement())
+  product_id Int?
+  size_id    Int?
+  price      Int?
+  product    product? @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_detail_product_id_product_id")
+  size       size?    @relation(fields: [size_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_detail_size_id_size_id")
+  sell       sell[]
+  wish       wish[]
+
+  @@index([product_id], map: "fk_product_detail_product_id_product_id")
+  @@index([size_id], map: "fk_product_detail_size_id_size_id")
+}
+
+model product_images {
+  id         Int      @id @default(autoincrement())
+  url        String?  @db.VarChar(255)
+  position   Int?
+  product_id Int?
+  product    product? @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_images_product_id_product_id")
+
+  @@index([product_id], map: "fk_product_images_product_id_product_id")
+}
+
+model sell {
+  id                          Int             @id @default(autoincrement())
+  price                       Int?
+  created_at                  DateTime?       @default(now()) @db.DateTime(0)
+  purchase_time               DateTime?       @db.DateTime(0)
+  user_id                     Int?
+  product_detail_id           Int?
+  sell_status_id              Int?
+  purchase_id                 Int?
+  product_detail              product_detail? @relation(fields: [product_detail_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sell_product_detail_id_product_detail_id")
+  user_sell_purchase_idTouser user?           @relation("sell_purchase_idTouser", fields: [purchase_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sell_purchase_id_user_id")
+  sell_status                 sell_status?    @relation(fields: [sell_status_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sell_status_id_status_id")
+  user_sell_user_idTouser     user?           @relation("sell_user_idTouser", fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sell_user_id_user_id")
+
+  @@index([product_detail_id], map: "fk_sell_product_detail_id_product_detail_id")
+  @@index([purchase_id], map: "fk_sell_purchase_id_user_id")
+  @@index([sell_status_id], map: "fk_sell_status_id_status_id")
+  @@index([user_id], map: "fk_sell_user_id_user_id")
+}
+
+model sell_status {
+  id     Int     @id @default(autoincrement())
+  status String? @db.VarChar(255)
+  sell   sell[]
+}
+
+model size {
+  id             Int              @id @default(autoincrement())
+  size           String?          @db.VarChar(255)
+  category_id    Int?
+  category       category?        @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "size_ibfk_1")
+  product_detail product_detail[]
+
+  @@index([category_id], map: "fk_size_category_id_category_id")
+}
+
+model style {
+  id                 Int                  @id @default(autoincrement())
+  user_id            Int?
+  content            String?              @db.VarChar(255)
+  comment_num        Int?
+  created_at         DateTime?            @default(now()) @db.DateTime(0)
+  user               user?                @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_style_user_id_user_id")
+  style_image        style_image[]
+  style_like         style_like[]
+  style_product_list style_product_list[]
+
+  @@index([user_id], map: "fk_style_user_id_user_id")
+}
+
+model style_image {
+  id       Int     @id @default(autoincrement())
+  style_id Int?
+  url      String? @db.VarChar(255)
+  style    style?  @relation(fields: [style_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_style_image_style_id_style_id")
+
+  @@index([style_id], map: "fk_style_image_style_id_style_id")
+}
+
+model style_like {
+  id       Int    @id @default(autoincrement())
+  style_id Int?
+  user_id  Int?
+  style    style? @relation(fields: [style_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_style_like_style_id_style_id")
+  user     user?  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_style_like_user_id_user_id")
+
+  @@index([style_id], map: "fk_style_like_style_id_style_id")
+  @@index([user_id], map: "fk_style_like_user_id_user_id")
+}
+
+model style_product_list {
+  id         Int      @id @default(autoincrement())
+  style_id   Int?
+  product_id Int?
+  product    product? @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_style_product_list_product_id_product_id")
+  style      style?   @relation(fields: [style_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_style_product_list_style_id_style_id")
+
+  @@index([product_id], map: "fk_style_product_list_product_id_product_id")
+  @@index([style_id], map: "fk_style_product_list_style_id_style_id")
+}
+
+model sub_category {
+  id           Int       @id @default(autoincrement())
+  sub_category String?   @db.VarChar(255)
+  category_id  Int?
+  category     category? @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sub_category_category_id_category_id")
+  product      product[]
+
+  @@index([category_id], map: "fk_sub_category_category_id_category_id")
+}
+
+model user {
+  id                          Int          @id @default(autoincrement())
+  email                       String       @db.VarChar(255)
+  password                    String?      @db.VarChar(255)
+  phone                       String?      @db.VarChar(255)
+  name                        String?      @db.VarChar(255)
+  image                       String?      @db.VarChar(255)
+  created_at                  DateTime?    @default(now()) @db.DateTime(0)
+  updated_at                  DateTime?    @db.DateTime(0)
+  address                     address[]
+  sell_sell_purchase_idTouser sell[]       @relation("sell_purchase_idTouser")
+  sell_sell_user_idTouser     sell[]       @relation("sell_user_idTouser")
+  style                       style[]
+  style_like                  style_like[]
+  wish                        wish[]
+}
+
+model wish {
+  id                Int             @id @default(autoincrement())
+  product_detail_id Int?
+  user_id           Int?
+  product_detail    product_detail? @relation(fields: [product_detail_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_wish_product_detail_id_product_detail_id")
+  user              user?           @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_wish_user_id_user_id")
+
+  @@index([product_detail_id], map: "fk_wish_product_detail_id_product_detail_id")
+  @@index([user_id], map: "fk_wish_user_id_user_id")
 }
