@@ -29,10 +29,9 @@ async function getInformationId(id) {
   `;
   return dbInformation;
 }
-async function putpurchase(id, sell_status_id) {
-  console.log(sell_status_id, id, 'cd');
+async function putpurchase(userId, sellId, sell_status_id) {
   const dbpurchase = await prisma.$queryRaw`
-  UPDATE sell SET sell_status_id=${sell_status_id} WHERE id=${id} ;
+  UPDATE sell SET sell_status_id=${sell_status_id},purchase_id = ${userId} WHERE id=${sellId} ;
   `;
   return dbpurchase;
 }
