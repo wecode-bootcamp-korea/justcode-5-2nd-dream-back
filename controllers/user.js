@@ -25,8 +25,8 @@ const loginController = async (req, res) => {
 
 const deleteUserController = async (req, res) => {
   try {
-    const { email } = req.body;
-    await userService.deleteUser(email);
+    const userId = req.params.id;
+    await userService.deleteUser(userId);
 
     return res.status(201).json({ message: 'DELETE_SUCCESS' });
   } catch (error) {

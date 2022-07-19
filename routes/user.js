@@ -24,7 +24,7 @@ const validateCredential = [
 
 router.post('/join', validateCredential, userController.joinController);
 router.post('/login', validateCredential, userController.loginController);
-router.delete('/users', userController.deleteUserController);
+router.delete('/users/:id', userController.deleteUserController);
 router.get('/kakao', userController.kakao);
 router.get('/auth/kakao/callback', userController.kakaoLogin);
 

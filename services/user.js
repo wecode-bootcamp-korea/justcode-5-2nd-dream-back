@@ -35,8 +35,8 @@ async function login(email, password) {
   }
 }
 
-async function deleteUser(email) {
-  const existingUser = await userRepository.getUserByEmail(email);
+async function deleteUser(id) {
+  const existingUser = await userRepository.getUserById(id);
   if (existingUser === undefined) {
     const error = createError('NO_USER', 409);
     throw error;
