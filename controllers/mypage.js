@@ -41,21 +41,11 @@ const deleteAddress = async (req, res) => {
 };
 
 const getpurchasehistory = async (req, res) => {
-  const id = req.params.id;
-  const purchasehistory = await mypageServices.getpurchasehistory(id);
+  const purchaseId = req.params.purchaseId;
+  const purchasehistory = await mypageServices.getpurchasehistory(purchaseId);
   return res.status(200).json({ data: purchasehistory });
 };
-// const insertwishList = async (req, res, next) => {
-//   try {
-//     const { user_id, room_id } = req.body;
-//     console.log(req.body);
-//     const wishList = await InsertWishList(user_id, room_id);
 
-//     return res.status(200).json({ message: 'CREATED' });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
 module.exports = {
   getmypage,
   putmypage,
