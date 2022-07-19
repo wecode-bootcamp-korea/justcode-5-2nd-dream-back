@@ -8,6 +8,13 @@ async function getUserByEmail(email) {
   return existingUser;
 }
 
+async function getUserById(id) {
+  const [existingUserById] = await prisma.$queryRaw`
+    SELECT * FROM user WHERE id=${id}; 
+  `;
+  return existingUserById;
+}
+
 async function createUser(createUserDto) {
   const { email, password, nickname, profileImage, id } = createUserDto;
   let idString;
@@ -20,4 +27,10 @@ async function createUser(createUserDto) {
   `;
 }
 
-module.exports = { getUserByEmail, createUser };
+async function deleteUser(id) {
+  await prisma.$queryRaw`
+    DELETE FROM user WHERE id=${id};
+  `;
+}
+
+module.exports = { getUserByEmail, getUserById, createUser, deleteUser };
