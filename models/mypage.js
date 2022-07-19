@@ -14,10 +14,12 @@ async function getMypageByUserId(userid) {
   JSON_ARRAYAGG(JSON_Object("address",address.address,"id",address.id)) address
   
  FROM user as u
- JOIN address ON address.user_id = u.id
+
+ LEFT JOIN address ON address.user_id = u.id
 
  WHERE u.id = ${userid}
- GROUP BY address.user_id
+
+ GROUP BY u.id
   `;
   return dbMypage;
 }

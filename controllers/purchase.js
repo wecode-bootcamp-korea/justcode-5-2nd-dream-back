@@ -1,38 +1,17 @@
-const {
-  getWishListByUserId,
-  DeletWishList,
-  InsertWishList,
-} = require('../models/purchase');
+const InformationServices = require('../services/purchase');
+const purchaseServices = require('../services/purchase');
 
-const wishList = async (req, res) => {
-  console.log(`in controllers`);
-  const userid = req.params.id;
-  const wishList = await getWishListByUserId(userid);
-  console.log(`before return ${wishList}`);
-
-  return res.status(200).json({ data: wishList });
+const getInformation = async (req, res) => {
+  const id = req.params.id;
+  const dbInformation = await InformationServices.getInformationId(id);
+  return res.status(200).json({ data: dbInformation });
 };
 
-const deletwishList = async (req, res) => {
-  console.log(req.params);
-  const { id, roomid } = req.params;
-  // const id = req.params.id
-  // const roomid = req.params.roomid
-
-  const wishList = await DeletWishList(id, roomid);
-
-  return res.status(200).json({ message: 'DELET SES' });
+const putpurchase = async (req, res) => {
+  const id = req.params.id;
+  const sell_status_id = req.body.sell_status_id;
+  console.log(sell_status_id,"확인");
+  const dbpurchase = await purchaseServices.putpurchase(id, sell_status_id);
+  return res.status(200).json({ message: 'CREATED' });
 };
-
-const insertwishList = async (req, res, next) => {
-  try {
-    const { user_id, room_id } = req.body;
-    console.log(req.body);
-    const wishList = await InsertWishList(user_id, room_id);
-
-    return res.status(200).json({ message: 'CREATED' });
-  } catch (err) {
-    next(err);
-  }
-};
-module.exports = { wishList, deletwishList, insertwishList };
+module.exports = { getInformation, putpurchase };

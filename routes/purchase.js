@@ -1,13 +1,7 @@
 const { Router } = require('express');
-const asyncWrap = require('../async-wrap');
 const router = Router();
-const {
-  wishList,
-  deletwishList,
-  insertwishList,
-} = require('../controllers/purchase');
+const { getInformation, putpurchase } = require('../controllers/purchase');
 
-router.get('/wishlist/:id', wishList);
-router.delete('/wishlist/:id/:roomid', deletwishList);
-router.post('/wishlist/:id', insertwishList);
+router.get('/information/:id', getInformation); //구매,판매 사이즈 별 정보
+router.put('/purchase/:id', putpurchase); //구매 버튼
 module.exports = router;

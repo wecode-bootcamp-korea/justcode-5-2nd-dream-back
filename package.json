@@ -32,9 +32,11 @@
     "prisma": "^4.0.0"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.18.1",
+    "express-validator": "^6.14.2",
     "to": "^0.2.9",
     "update": "^0.7.4"
   },
