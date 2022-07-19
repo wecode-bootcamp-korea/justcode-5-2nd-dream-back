@@ -35,10 +35,13 @@ async function login(email, password) {
   }
 }
 
-async function deleteUser(id) {
-  const existingUserNone = await userRepository.getUserById(id);
-  console.log(existingUserNone);
-  await userRepository.deleteUser(id);
+async function deleteUser(email) {
+  const existingUser = await userRepository.getUserByEmail(email);
+  if (existingUser === undefined) {
+    const error = createError('NO_USER', 409);
+    throw error;
+  }
+  await userRepository.deleteUser(email);
 }
 
 const kakaoLogin = async code => {
