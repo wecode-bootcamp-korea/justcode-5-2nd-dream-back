@@ -1,13 +1,6 @@
 const { Router } = require('express');
-const asyncWrap = require('../async-wrap');
 const router = Router();
-const {
-  wishList,
-  deletwishList,
-  insertwishList,
-} = require('../controllers/wishlist');
+const { postsale } = require('../controllers/sale');
 
-router.get('/wishlist/:id', wishList);
-router.delete('/wishlist/:id/:roomid', deletwishList);
-router.post('/wishlist/:id', insertwishList);
+router.post('/sale/:id', postsale);
 module.exports = router;
