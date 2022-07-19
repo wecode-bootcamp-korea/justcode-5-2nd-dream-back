@@ -69,6 +69,9 @@ const kakaoLogin = async code => {
     const userDto = {
       id: userId,
       token,
+      email,
+      nickname,
+      profileImage,
     };
     return userDto;
   }
