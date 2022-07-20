@@ -29,8 +29,8 @@ const getMainWishController = async (req, res, next) => {
 
 const createWishController = async (req, res, next) => {
   try {
-    const { user_id, product_id, product_detail_id } = req.body;
-    await createWishService(user_id, product_id, product_detail_id);
+    const { user_id, product_id } = req.body;
+    await createWishService(user_id, product_id);
     return res.status(201).json({ message: 'wishlist item is added' });
   } catch (err) {
     console.log(err);
@@ -40,8 +40,8 @@ const createWishController = async (req, res, next) => {
 
 const deleteWishController = async (req, res, next) => {
   try {
-    const { user_id, product_id, product_detail_id } = req.body;
-    await deleteWishService(user_id, product_id, product_detail_id);
+    const { user_id, product_id } = req.body;
+    await deleteWishService(user_id, product_id);
     return res.status(201).json({ message: 'wishlist item is deleted' });
   } catch (err) {
     console.log(err);
