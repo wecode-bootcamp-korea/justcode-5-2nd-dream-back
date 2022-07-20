@@ -1,8 +1,14 @@
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function getSearchDetails() {
-  const productDetails = await prisma.$queryRaw`
+function generateSortStatement(keyword) {
+  return keyword
+    ? `ORDER BY ${keyword} DESC LIMIT 40`
+    : `ORDER BY sell_num DESC LIMIT 40`;
+}
+
+async function getSearchDetails(keyword) {
+  const productDetails = await prisma.$queryRawUnsafe(`
     SELECT product.id,
         brand.brand,
         product.name AS product_name,
@@ -30,8 +36,8 @@ async function getSearchDetails() {
         group by wish.product_id
     ) wish ON wish.product_id = product.id
     WHERE product_images.position = 1
-    ORDER BY product.created_at DESC LIMIT 40
-`;
+    ${generateSortStatement(keyword)}
+`);
   return productDetails;
 }
 
