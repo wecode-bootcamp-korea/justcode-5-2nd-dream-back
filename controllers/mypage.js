@@ -46,6 +46,11 @@ const getpurchasehistory = async (req, res) => {
   return res.status(200).json({ data: purchasehistory });
 };
 
+const getSaleHistory = async (req, res) => {
+  const saleId = req.params.saleId;
+  const salehistory = await mypageServices.getpurchasehistory(saleId);
+  return res.status(200).json({ data: salehistory });
+};
 module.exports = {
   getmypage,
   putmypage,
@@ -54,4 +59,5 @@ module.exports = {
   putaddress,
   deleteAddress,
   getpurchasehistory,
+  getSaleHistory,
 };

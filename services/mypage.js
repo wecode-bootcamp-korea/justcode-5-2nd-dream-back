@@ -28,6 +28,10 @@ async function getpurchasehistory(purchaseId) {
   return await mypagemodels.getpurchasehistory(purchaseId);
 }
 
+async function getSaleHistory(saleId) {
+  return await mypagemodels.getSaleHistory(saleId);
+}
+
 module.exports = {
   getMypageByUserId,
   putMypageByuserId,
@@ -36,4 +40,5 @@ module.exports = {
   putMyPageAdd,
   deleteMyPageAdd,
   getpurchasehistory,
+  getSaleHistory,
 };
