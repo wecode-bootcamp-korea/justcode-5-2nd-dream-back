@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function getWish(userId) {
-  const wishlist = prisma.$queryRaw`SELECT product.id AS product_id, product.name,brand.brand, product_images.url AS product_image, product_detail.price, size.size
+  const wishlist = prisma.$queryRaw`SELECT wish.product_id, wish.product_detail_id, product.name,brand.brand, product_images.url AS product_image, product_detail.price, size.size
     FROM wish JOIN product_detail ON wish.product_detail_id = product_detail.id JOIN product ON product_detail.product_id = product.id 
     JOIN brand ON product.brand_id = brand.id JOIN size ON product_detail.size_id = size.id
     JOIN (SELECT product_id,url FROM product_images WHERE position =1) product_images ON product.id = product_images.product_id
