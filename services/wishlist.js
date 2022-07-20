@@ -19,7 +19,11 @@ const createWishService = async (user_id, product_id, product_detail_id) => {
 
 const deleteWishService = async (user_id, product_id, product_detail_id) => {
   const wishDTO = { user_id, product_id, product_detail_id };
-  await deleteWish(wishDTO);
+  const deletedItem = await deleteWish(wishDTO);
+  if (!deletedItem) {
+    const error = new Error('이미 관심상품에서 삭제된 상품입니다.');
+    throw error;
+  }
 };
 
 const getWishService = async userId => {

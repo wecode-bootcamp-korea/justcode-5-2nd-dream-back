@@ -21,7 +21,9 @@ async function createWish(wishDTO) {
 }
 
 async function deleteWish(wishDTO) {
-  await prisma.$queryRaw`DELETE FROM wish WHERE user_id=${wishDTO.user_id} and product_id=${wishDTO.product_id} and product_detail_id=${wishDTO.product_detail_id}`;
+  const deletedItem =
+    await prisma.$executeRaw`DELETE FROM wish WHERE user_id=${wishDTO.user_id} and product_id=${wishDTO.product_id} and product_detail_id=${wishDTO.product_detail_id}`;
+  return deletedItem;
 }
 
 async function alreadyWishItem(wishDTO) {
