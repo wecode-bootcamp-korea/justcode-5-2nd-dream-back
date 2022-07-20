@@ -10,12 +10,17 @@ async function getWish(userId) {
   return wishlist;
 }
 
+async function getWishMain(userId) {
+  const wishs = prisma.$queryRaw`SELECT product_id FROM wish WHERE user_id = ${userId} GROUP BY product_id`;
+  return wishs;
+}
+
 async function createWish(wishDTO) {
-  await prisma.$queryRaw`INSERT INTO wish(product_detail_id,user_id) VALUES(${wishDTO.product_detail_id},${wishDTO.user_id})`;
+  await prisma.$queryRaw`INSERT INTO wish(product_id,product_detail_id,user_id) VALUES(${wishDTO.product_id},${wishDTO.product_detail_id},${wishDTO.user_id})`;
 }
 
 async function deleteWish(wishDTO) {
-  await prisma.$queryRaw`DELETE FROM wish WHERE user_id=${wishDTO.user_id} and product_detail_id=${wishDTO.product_detail_id}`;
+  await prisma.$queryRaw`DELETE FROM wish WHERE user_id=${wishDTO.user_id} and product_id=${wishDTO.product_id} and product_detail_id=${wishDTO.product_detail_id}`;
 }
 
-module.exports = { getWish, createWish, deleteWish };
+module.exports = { getWish, createWish, deleteWish, getWishMain };
