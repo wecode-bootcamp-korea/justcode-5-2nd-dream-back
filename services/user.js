@@ -55,7 +55,6 @@ const kakaoLogin = async code => {
   const profileImage = userInfo.data.kakao_account.profile.profile_image_url;
   const id = userInfo.data.id;
   const existingUser = await userRepository.getUserByEmail(email);
-  const userId = existingUser.id;
 
   const createUserDTO = {
     email,
@@ -65,6 +64,7 @@ const kakaoLogin = async code => {
   };
 
   if (existingUser) {
+    const userId = existingUser.id;
     const token = jwt.sign({ id: existingUser.id }, process.env.SECRET_KEY);
     const userDto = {
       id: userId,
