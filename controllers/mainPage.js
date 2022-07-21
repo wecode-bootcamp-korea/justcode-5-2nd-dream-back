@@ -1,12 +1,9 @@
-const { displayInfo } = require('../services/maPage');
+const { displayInfo } = require('../services/mainPage');
 
 const mainPageController = async (req, res, next) => {
   try {
-    const [justDropList, popularList] = await displayInfo();
-    for (let i = 0; i < popularList.length; i++) {
-      popularList[i].sell_num = parseInt(popularList[i].sell_num);
-    }
-    return res.status(201).json({ data: [justDropList, popularList] });
+    const [justDropList, popularList, styles] = await displayInfo();
+    return res.status(201).json({ data: [justDropList, popularList, styles] });
   } catch (err) {
     next(err);
   }

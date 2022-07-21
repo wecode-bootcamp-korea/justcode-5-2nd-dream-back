@@ -3,5 +3,5 @@ CREATE TABLE `product_images` (
   `url` varchar(255),
   `position` int,
   `product_id` int,
-  FOREIGN KEY fk_product_images_product_id_product_id (product_id) REFERENCES product (id) ON DELETE CASCADE
+  CONSTRAINT fk_product_images_product_id_product_id FOREIGN KEY (product_id) REFERENCES product (id) ON DELETE CASCADE
 );
