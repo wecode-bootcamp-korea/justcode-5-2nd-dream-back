@@ -35,8 +35,8 @@ const putaddress = async (req, res) => {
 };
 
 const deleteAddress = async (req, res) => {
-  const id = req.params.id;
-  const mypage = await mypageServices.deleteMyPageAdd(id);
+  const user_id = req.params.user_id;
+  const mypage = await mypageServices.deleteMyPageAdd(user_id);
   return res.status(200).json({ message: 'DELTET_CREATED' });
 };
 
