@@ -1,12 +1,15 @@
 const {
-  getStylesLikeService,
+  getStylesService,
   addStyleLikeService,
   deleteStyleLikeService,
 } = require('../services/style');
 
-const getStylesLikeController = async (req, res, next) => {
+const getStylesController = async (req, res, next) => {
   try {
-    const styles = await getStylesLikeService();
+    const keyword = req.query.sort;
+    console.log('keyword', keyword);
+    const styles = await getStylesService(keyword);
+    console.log('styles', styles);
     return res.status(201).json({ data: styles });
   } catch (err) {
     console.log(err);
@@ -37,7 +40,7 @@ const deleteStyleLikeController = async (req, res, next) => {
 };
 
 module.exports = {
-  getStylesLikeController,
+  getStylesController,
   addStyleLikeController,
   deleteStyleLikeController,
 };

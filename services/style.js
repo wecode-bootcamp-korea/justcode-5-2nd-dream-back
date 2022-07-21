@@ -1,11 +1,7 @@
-const {
-  getStylesByLike,
-  addStyleLike,
-  deleteStyleLike,
-} = require('../models/style');
+const { getStyles, addStyleLike, deleteStyleLike } = require('../models/style');
 
-const getStylesLikeService = async () => {
-  const styles = await getStylesByLike();
+const getStylesService = async keyword => {
+  const styles = await getStyles(keyword);
   for (let i = 0; i < styles.length; i++) {
     styles[i].like_num = parseInt(styles[i].like_num);
   }
@@ -23,7 +19,7 @@ const deleteStyleLikeService = async (style_id, user_id) => {
 };
 
 module.exports = {
-  getStylesLikeService,
+  getStylesService,
   addStyleLikeService,
   deleteStyleLikeService,
 };
