@@ -81,10 +81,22 @@ const kakaoLogin = async code => {
   }
 };
 
+const checkId = async email => {
+  return await userRepository.getUserByIdSocialSignup(email);
+};
+
 async function kakaoSignUp(createUserDto) {
   await userRepository.createUser(createUserDto);
   const token = jwt.sign({ id: createUserDto.id }, process.env.SECRET_KEY);
-  return token;
+  const userId = await checkId(createUserDto.email);
+  const signupUserDto = {
+    id: userId[0].id,
+    email: createUserDto.email,
+    nickname: createUserDto.nickname,
+    profileImage: createUserDto.profileImage,
+    token,
+  };
+  return signupUserDto;
 }
 
 const getKakaoToken = async code => {
@@ -123,4 +135,4 @@ const getUserInfoByToken = async accessToken => {
   return userInfo;
 };
 
-module.exports = { join, login, deleteUser, kakaoLogin };
+module.exports = { join, login, deleteUser, kakaoLogin, checkId };
