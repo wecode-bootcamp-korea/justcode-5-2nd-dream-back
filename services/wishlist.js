@@ -1,13 +1,29 @@
-const { createWish, deleteWish, getWish } = require('../models/wishlist');
+const {
+  createWish,
+  deleteWish,
+  getWish,
+  getWishMain,
+  alreadyWishItem,
+} = require('../models/wishlist');
 
-const createWishService = async (user_id, product_detail_id) => {
-  const wishDTO = { user_id, product_detail_id };
-  await createWish(wishDTO);
+const createWishService = async (user_id, product_id) => {
+  const wishDTO = { user_id, product_id };
+  const wish = await alreadyWishItem(wishDTO);
+  if (wish.length === 0) {
+    await createWish(wishDTO);
+  } else {
+    const error = new Error('이미 관심상품에 등록된 상품입니다.');
+    throw error;
+  }
 };
 
-const deleteWishService = async (user_id, product_detail_id) => {
-  const wishDTO = { user_id, product_detail_id };
-  await deleteWish(wishDTO);
+const deleteWishService = async (user_id, product_id) => {
+  const wishDTO = { user_id, product_id };
+  const deletedItem = await deleteWish(wishDTO);
+  if (!deletedItem) {
+    const error = new Error('이미 관심상품에서 삭제된 상품입니다.');
+    throw error;
+  }
 };
 
 const getWishService = async userId => {
@@ -15,4 +31,14 @@ const getWishService = async userId => {
   return wish;
 };
 
-module.exports = { createWishService, deleteWishService, getWishService };
+const getWishs = async userId => {
+  const wishs = await getWishMain(userId);
+  return wishs;
+};
+
+module.exports = {
+  createWishService,
+  deleteWishService,
+  getWishService,
+  getWishs,
+};

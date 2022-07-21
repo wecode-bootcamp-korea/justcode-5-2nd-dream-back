@@ -59,7 +59,42 @@ async function deleteMyPageAdd(id) {
   return dbMypage;
 }
 
-async function getpurchasehistory(id) {
+async function getpurchasehistory(user_id, purchaseId) {
+  const dbMypage = await prisma.$queryRaw`
+SELECT
+u.id,
+s.product_id,
+s.user_id,
+s.created_at,
+s.price,
+s.purchase_id,
+ss.status,
+p.name,
+pi.url,
+pd.size_id,
+sz.size
+
+from user as u
+
+left JOIN sell as s on u.id = s.product_id
+
+left join sell_status as ss on s.sell_status_id = ss.id
+
+left join product as p on s.product_id = p.id
+
+left join product_detail as pd on pd.id = p.id
+
+left join size as sz on pd.size_id = sz.id
+
+left join product_images as pi on p.id = pi.id
+
+WHERE s.purchase_id = ${purchaseId}
+
+  `;
+  return dbMypage;
+}
+
+async function getSaleHistory(user_Id) {
   const dbMypage = await prisma.$queryRaw`
 SELECT
 u.id,
@@ -83,25 +118,17 @@ left join sell_status as ss on s.sell_status_id = ss.id
 
 left join product as p on s.product_id = p.id
 
-left join product_detail as pd on p.id = pd.product_id
+left join product_detail as pd on pd.id = p.id
 
 left join size as sz on pd.size_id = sz.id
 
 left join product_images as pi on p.id = pi.id
 
-WHERE u.id = ${id}
+WHERE s.user_id = ${user_Id}
 
   `;
   return dbMypage;
 }
-// async function putMypageByuserId(userId, address) {
-//   console.log(putMypageByuserId, 'address');
-//   const dbMypage = await prisma.$queryRaw`
-//   UPDATE user SET address=${address} WHERE id=${userId};
-//   `;
-//   // return res.status(200).json({ message: 'CREATED' });
-//   return dbMypage;
-// }
 
 module.exports = {
   getMypageByUserId,
@@ -111,4 +138,5 @@ module.exports = {
   putMyPageAdd,
   deleteMyPageAdd,
   getpurchasehistory,
+  getSaleHistory,
 };
