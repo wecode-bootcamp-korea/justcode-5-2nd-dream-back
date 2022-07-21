@@ -52,9 +52,9 @@ async function putMyPageAdd(id, address) {
   return dbMypage;
 }
 
-async function deleteMyPageAdd(id) {
+async function deleteMyPageAdd(user_id) {
   const dbMypage = await prisma.$queryRaw`
-  DELETE FROM address WHERE id=${id} ;
+  DELETE FROM address WHERE user_id=${user_id} ;
   `;
   return dbMypage;
 }

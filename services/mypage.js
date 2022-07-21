@@ -20,8 +20,8 @@ async function putMyPageAdd(id, address) {
   return await mypagemodels.putMyPageAdd(id, address);
 }
 
-async function deleteMyPageAdd(id) {
-  return await mypagemodels.deleteMyPageAdd(id);
+async function deleteMyPageAdd(user_id) {
+  return await mypagemodels.deleteMyPageAdd(user_id);
 }
 
 async function getpurchasehistory(user_id, purchaseId) {
