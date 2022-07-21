@@ -41,14 +41,18 @@ const deleteAddress = async (req, res) => {
 };
 
 const getpurchasehistory = async (req, res) => {
+  const user_id = req.params.user_id;
   const purchaseId = req.params.purchaseId;
-  const purchasehistory = await mypageServices.getpurchasehistory(purchaseId);
+  const purchasehistory = await mypageServices.getpurchasehistory(
+    user_id,
+    purchaseId
+  );
   return res.status(200).json({ data: purchasehistory });
 };
 
 const getSaleHistory = async (req, res) => {
   const saleId = req.params.saleId;
-  const salehistory = await mypageServices.getpurchasehistory(saleId);
+  const salehistory = await mypageServices.getSaleHistory(saleId);
   return res.status(200).json({ data: salehistory });
 };
 module.exports = {

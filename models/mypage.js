@@ -59,7 +59,7 @@ async function deleteMyPageAdd(id) {
   return dbMypage;
 }
 
-async function getpurchasehistory(purchaseId) {
+async function getpurchasehistory(user_id, purchaseId) {
   const dbMypage = await prisma.$queryRaw`
 SELECT
 u.id,
@@ -67,6 +67,7 @@ s.product_id,
 s.user_id,
 s.created_at,
 s.price,
+s.purchase_id,
 ss.status,
 p.name,
 pi.url,
@@ -93,7 +94,7 @@ WHERE s.purchase_id = ${purchaseId}
   return dbMypage;
 }
 
-async function getSaleHistory(saleId) {
+async function getSaleHistory(user_Id) {
   const dbMypage = await prisma.$queryRaw`
 SELECT
 u.id,
@@ -123,7 +124,7 @@ left join size as sz on pd.size_id = sz.id
 
 left join product_images as pi on p.id = pi.id
 
-WHERE s.purchase_id = ${saleId}
+WHERE s.user_id = ${user_Id}
 
   `;
   return dbMypage;
