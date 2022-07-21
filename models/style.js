@@ -3,11 +3,11 @@ const prisma = new PrismaClient();
 
 async function getStylesByLike() {
   const styles =
-    await prisma.$queryRaw`SELECT user_name, user_image, style.id AS style_id, style.content, style.image_list, style.comment_num, style_like.like_num,
-    style_product_list.products_info AS product_list
-    FROM (SELECT user.name AS user_name, user.image AS user_image, style.id, style.content, style.comment_num,
+    await prisma.$queryRaw`SELECT user_name, user_image, style.id AS style_id, style.content, style.image_list, style.comment_num, IFNULL(style_like.like_num,0) AS like_num,
+    style_product_list.products_info AS product_list, style.created_at
+    FROM (SELECT user.name AS user_name, user.image AS user_image, style.id, style.content, style.comment_num, style.created_at,
     JSON_ARRAYAGG(CASE WHEN style_image.id IS NOT NULL THEN JSON_OBJECT('image_url',style_image.url) END) AS image_list
-    FROM style JOIN style_image ON style.id = style_image.style_id JOIN user ON style.user_id = user.id GROUP BY style.id) style 
+    FROM style LEFT JOIN style_image ON style.id = style_image.style_id LEFT JOIN user ON style.user_id = user.id GROUP BY style.id) style 
     LEFT JOIN 
     (SELECT style_id, COUNT(style_id) AS like_num FROM style_like GROUP BY style_id) style_like ON style.id = style_like.style_id
     LEFT JOIN 

@@ -7,6 +7,7 @@ const {
 const getStylesLikeController = async (req, res, next) => {
   try {
     const styles = await getStylesLikeService();
+    console.log('styles', styles);
     return res.status(201).json({ data: styles });
   } catch (err) {
     console.log(err);
