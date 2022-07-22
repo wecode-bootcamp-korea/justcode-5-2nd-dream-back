@@ -10,7 +10,7 @@ async function displayMain() {
         JOIN product ON sell.product_id = product.id JOIN brand ON product.brand_id = brand.id 
         LEFT JOIN product_images ON product.id = product_images.product_id
         WHERE product_images.position = 1
-        ORDER BY sell.created_at DESC LIMIT 16`,
+        ORDER BY sell.created_at DESC LIMIT 8`,
     prisma.$queryRaw`SELECT product.id AS product_id,
         product.name AS product_name,
         brand.brand,
@@ -32,10 +32,10 @@ async function displayMain() {
         LEFT JOIN brand ON product.brand_id = brand.id
         LEFT JOIN product_images ON product.id = product_images.product_id
             WHERE product_images.position = 1
-            ORDER BY sell_num DESC LIMIT 16;
+            ORDER BY sell_num DESC LIMIT 8;
 `,
-    prisma.$queryRaw`SELECT user.name AS user_name, user.image AS user_image, style_image.style_id, style_image.image_url
-        FROM style LEFT JOIN user ON style.user_id = user.id 
+    prisma.$queryRaw`SELECT user.email AS user_email, user.image AS user_image, style_image.style_id, style_image.image_url
+        FROM style JOIN user ON style.user_id = user.id 
         JOIN (SELECT style_id,url AS image_url FROM style_image WHERE id IN (SELECT MAX(id) FROM style_image GROUP BY style_id)) style_image ON style.id = style_image.style_id LIMIT 12`,
   ]);
   return [justDropList, popularList, styles];
