@@ -7,7 +7,7 @@ async function getInformationId(id) {
   
     pd.product_id,
 
-    JSON_ARRAYAGG(JSON_OBJECT("sell.id",s.id,"size_id",si.id,"size",si.size,
+    JSON_ARRAYAGG(JSON_OBJECT("sell.id",s.id,"sell.user_id",s.user_id,"size_id",si.id,"size",si.size,
     "status",ss.status,"sell_status_id",s.sell_status_id,"price",s.price,"product_detail_id",s.product_detail_id)) 
     AS size_list
     
