@@ -20,7 +20,7 @@ async function putMyPageAdd(id, address) {
   return await mypagemodels.putMyPageAdd(id, address);
 }
 
-async function deleteMyPageAdd(uid) {
+async function deleteMyPageAdd(id) {
   return await mypagemodels.deleteMyPageAdd(id);
 }
 
