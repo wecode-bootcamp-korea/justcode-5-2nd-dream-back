@@ -76,7 +76,7 @@ sz.size
 
 from user as u
 
-left JOIN sell as s on u.id = s.product_id
+left JOIN sell as s on s.user_id = u.id
 
 left join sell_status as ss on s.sell_status_id = ss.id
 
@@ -112,7 +112,7 @@ sz.size
 
 from user as u
 
-left JOIN sell as s on u.id = s.product_id
+left JOIN sell as s on s.user_id = u.id
 
 left join sell_status as ss on s.sell_status_id = ss.id
 
