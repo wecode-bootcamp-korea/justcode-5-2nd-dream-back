@@ -13,7 +13,7 @@ const isLogin = (req, res, next) => {
     if (error) {
       return res.status(401).json(AUTH_ERROR);
     }
-    const user = await userRepository.readUserById(decoded.id);
+    const user = await userRepository.getUserById(decoded.id);
     if (!user) {
       return res.status(401).json(AUTH_ERROR);
     }

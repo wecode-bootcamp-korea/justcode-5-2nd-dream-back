@@ -11,7 +11,7 @@ async function getWish(userId) {
   return wishlist;
 }
 
-async function getWishMain(userId) {
+async function getWishForSell(userId) {
   const wishs =
     await prisma.$queryRaw`SELECT product_id FROM wish WHERE user_id = ${userId} GROUP BY product_id`;
   return wishs;
@@ -37,6 +37,6 @@ module.exports = {
   getWish,
   createWish,
   deleteWish,
-  getWishMain,
+  getWishForSell,
   alreadyWishItem,
 };

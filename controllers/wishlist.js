@@ -16,17 +16,6 @@ const getWishController = async (req, res, next) => {
   }
 };
 
-const getMainWishController = async (req, res, next) => {
-  try {
-    const userId = req.params.id;
-    const wishs = await getWishs(userId);
-    return res.status(201).json({ data: wishs });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-};
-
 const createWishController = async (req, res, next) => {
   try {
     const { user_id, product_id } = req.body;
@@ -53,5 +42,4 @@ module.exports = {
   getWishController,
   createWishController,
   deleteWishController,
-  getMainWishController,
 };
