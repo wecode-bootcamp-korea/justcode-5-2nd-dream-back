@@ -1,7 +1,7 @@
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function getProductDetails(id) {
+async function getProductDetail(id) {
   const productDetails = await prisma.$queryRaw`
     SELECT
         p.id,
@@ -77,4 +77,4 @@ BigInt.prototype.toJSON = function () {
   return this.toString();
 };
 
-module.exports = { getProductDetails };
+module.exports = { getProductDetail };
