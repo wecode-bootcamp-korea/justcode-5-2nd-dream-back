@@ -74,19 +74,19 @@ pi.url,
 pd.size_id,
 sz.size
 
-from user as u
+FROM user as u
 
-left JOIN sell as s on s.user_id = u.id
+LEFT JOIN sell as s on s.user_id = u.id
 
-left join sell_status as ss on s.sell_status_id = ss.id
+LEFT join sell_status as ss on s.sell_status_id = ss.id
 
-left join product as p on s.product_id = p.id
+LEFT  join product as p on s.product_id = p.id
 
-left join product_detail as pd on pd.id = p.id
+LEFT  join product_detail as pd on pd.id = p.id
 
-left join size as sz on pd.size_id = sz.id
+LEFT  join size as sz on pd.size_id = sz.id
 
-left join product_images as pi on p.id = pi.id
+LEFT  join product_images as pi on p.id = pi.id
 
 WHERE s.purchase_id = ${purchaseId}
 
@@ -112,17 +112,17 @@ sz.size
 
 from user as u
 
-left JOIN sell as s on s.user_id = u.id
+LEFT JOIN sell as s on s.user_id = u.id
 
-left join sell_status as ss on s.sell_status_id = ss.id
+LEFT JOIN sell_status as ss on s.sell_status_id = ss.id
 
-left join product as p on s.product_id = p.id
+LEFT JOIN product as p on s.product_id = p.id
 
-left join product_detail as pd on pd.id = p.id
+LEFT JOIN product_detail as pd on pd.id = p.id
 
-left join size as sz on pd.size_id = sz.id
+LEFT JOIN size as sz on pd.size_id = sz.id
 
-left join product_images as pi on p.id = pi.id
+LEFT JOIN product_images as pi on p.id = pi.id
 
 WHERE s.user_id = ${user_Id}
 
