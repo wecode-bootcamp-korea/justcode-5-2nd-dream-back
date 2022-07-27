@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
 const userRepository = require('../models/user.js');
 const AUTH_ERROR = { message: 'Authentication Error' };
-
+console.log(AUTH_ERROR, 123);
 const isLogin = (req, res, next) => {
+  console.log(req.headers, 'req.header');
   const authHeader = req.get('Authorization');
+  console.log(authHeader, 'auth');
   if (!(authHeader && authHeader.startsWith('Bearer '))) {
     return res.status(401).json(AUTH_ERROR);
   }

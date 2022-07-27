@@ -7,7 +7,7 @@ const {
 const router = express.Router();
 const { isLogin } = require('../middleware/auth');
 
-router.get('/wish/:id', getWishController);
+router.get('/wish/:id', isLogin, getWishController);
 router.post('/wish', createWishController);
 router.delete('/wish', deleteWishController);
 

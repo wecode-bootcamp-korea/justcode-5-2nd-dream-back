@@ -1,3 +1,4 @@
+const { isLogin } = require('../middleware/auth');
 const {
   getWishService,
   createWishService,
@@ -7,6 +8,7 @@ const {
 
 const getWishController = async (req, res, next) => {
   try {
+    console.log(req.userId, 'userId');
     const userId = req.params.id;
     const wish = await getWishService(userId);
     return res.status(201).json({ data: wish });
