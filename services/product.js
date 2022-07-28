@@ -1,7 +1,11 @@
-const { getProductDetail } = require('../models/product');
+const getProduct = require('../models/product');
 
-const productService = async id => {
-  return await getProductDetail(id);
+const productDetail = async id => {
+  return await getProduct.getProductDetail(id);
 };
 
-module.exports = { productService };
+const getProducts = async keyword => {
+  return await getProduct.getProducts(keyword);
+};
+
+module.exports = { productDetail, getProducts };

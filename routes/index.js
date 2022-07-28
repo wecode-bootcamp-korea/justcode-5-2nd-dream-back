@@ -9,7 +9,6 @@ const userRouter = require('./user');
 const styleRouter = require('./style');
 const saleRouter = require('./sale');
 const productRouter = require('./product');
-const searchRouter = require('./search');
 
 router.use(mainRoutes);
 router.use(mypageRouter);
@@ -18,7 +17,6 @@ router.use(purchaseRouter);
 router.use(userRouter);
 router.use(styleRouter);
 router.use(saleRouter);
-router.use(productRouter);
-router.use(searchRouter);
+router.use('/products', productRouter);
 
 module.exports = router;
