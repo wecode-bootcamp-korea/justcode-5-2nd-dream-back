@@ -4,21 +4,15 @@ const prisma = new PrismaClient();
 async function getInformationId(id) {
   const dbInformation = await prisma.$queryRaw`
   SELECT
-  
     pd.product_id,
-
     JSON_ARRAYAGG(JSON_OBJECT("sell.id",s.id,"sell.user_id",s.user_id,"size_id",si.id,"size",si.size,
     "status",ss.status,"sell_status_id",s.sell_status_id,"price",s.price,"product_detail_id",s.product_detail_id)) 
     AS size_list
-    
-    FROM sell s
-
-    LEFT JOIN sell_status AS ss ON ss.id = s.sell_status_id
-    LEFT JOIN product_detail AS pd ON pd.id = s.product_detail_id
-    LEFT JOIN size AS si ON si.id = pd.size_id
-    
-    WHERE pd.product_id = ${id}
-
+  FROM sell AS s
+  LEFT JOIN sell_status AS ss ON ss.id = s.sell_status_id
+  LEFT JOIN product_detail AS pd ON pd.id = s.product_detail_id
+  LEFT JOIN size AS si ON si.id = pd.size_id
+  WHERE pd.product_id = ${id}
   GROUP BY pd.product_id
   `;
   return dbInformation;
