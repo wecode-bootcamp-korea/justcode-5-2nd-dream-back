@@ -6,6 +6,6 @@ CREATE TABLE `user` (
   `name` varchar(255),
   `image` varchar(255),
   `social_id` varchar(255),
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `updated_at` datetime ON UPDATE CURRENT_TIMESTAMP
 );

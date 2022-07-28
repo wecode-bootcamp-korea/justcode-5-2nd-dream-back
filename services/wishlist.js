@@ -2,7 +2,6 @@ const {
   createWish,
   deleteWish,
   getWish,
-  getWishMain,
   alreadyWishItem,
 } = require('../models/wishlist');
 
@@ -31,14 +30,8 @@ const getWishService = async userId => {
   return wish;
 };
 
-const getWishs = async userId => {
-  const wishs = await getWishMain(userId);
-  return wishs;
-};
-
 module.exports = {
   createWishService,
   deleteWishService,
   getWishService,
-  getWishs,
 };
