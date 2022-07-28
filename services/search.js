@@ -1,4 +1,4 @@
-const { getSearchDetails } = require('../models/search');
+const { getSearchDetails } = require('../models/product');
 
 const searchService = async keyword => {
   return await getSearchDetails(keyword);
