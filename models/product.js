@@ -77,7 +77,7 @@ const generateSortStatement = keyword => {
     : `ORDER BY sell_num DESC LIMIT 40`;
 };
 
-const getSearchDetails = async keyword => {
+const getProducts = async keyword => {
   return await prisma.$queryRawUnsafe(`
       SELECT product.id,
           brand.brand,
@@ -114,4 +114,4 @@ BigInt.prototype.toJSON = function () {
   return this.toString();
 };
 
-module.exports = { getProductDetail, getSearchDetails };
+module.exports = { getProductDetail, getProducts };
