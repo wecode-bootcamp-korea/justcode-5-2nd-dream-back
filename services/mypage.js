@@ -1,19 +1,19 @@
 const mypagemodels = require('../models/mypage');
 
-async function getMypageByUserId(userid) {
-  return await mypagemodels.getMypageByUserId(userid);
+async function getMypageByUserId(userId) {
+  return await mypagemodels.getMypageByUserId(userId);
 }
 
-async function putMypageByuserId(userid, name) {
-  return await mypagemodels.putMypageByuserId(userid, name);
+async function putMypageByuserId(userId, name) {
+  return await mypagemodels.putMypageByuserId(userId, name);
 }
 
-async function putMyPageByPhone(userid, phone) {
-  return await mypagemodels.putMyPageByPhone(userid, phone);
+async function putMyPageByPhone(userId, phone) {
+  return await mypagemodels.putMyPageByPhone(userId, phone);
 }
 
-async function postMyPageAdd(address, userid) {
-  return await mypagemodels.postMyPageAdd(address, userid);
+async function postMyPageAdd(address, userId) {
+  return await mypagemodels.postMyPageAdd(address, userId);
 }
 
 async function putMyPageAdd(id, address) {
@@ -24,8 +24,8 @@ async function deleteMyPageAdd(id) {
   return await mypagemodels.deleteMyPageAdd(id);
 }
 
-async function getpurchasehistory(user_id, purchaseId) {
-  return await mypagemodels.getpurchasehistory(user_id, purchaseId);
+async function getpurchasehistory(purchaseId) {
+  return await mypagemodels.getpurchasehistory(purchaseId);
 }
 
 async function getSaleHistory(saleId) {

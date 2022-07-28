@@ -91,7 +91,8 @@ async function displayMain(userId) {
         FROM sell WHERE sell.sell_status_id = 1 GROUP BY product_id) sell 
         ${JustDroppedJoin(userId)}
         WHERE product_images.position = 1
-        ORDER BY sell.created_at DESC`),
+        ORDER BY sell.created_at DESC
+        `),
     prisma.$queryRawUnsafe(`${PopularSelect(userId)}
         FROM product
         ${PopularJoin(userId)}

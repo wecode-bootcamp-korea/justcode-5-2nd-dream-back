@@ -1,3 +1,4 @@
+const { validateToken } = require('../middleware/validateToken');
 const express = require('express');
 const {
   getWishController,
@@ -5,10 +6,9 @@ const {
   deleteWishController,
 } = require('../controllers/wishlist');
 const router = express.Router();
-const { isLogin } = require('../middleware/auth');
 
-router.get('/wish/:id', isLogin, getWishController);
-router.post('/wish', createWishController);
-router.delete('/wish', deleteWishController);
+router.get('/wish', validateToken, getWishController);
+router.post('/wish', validateToken, createWishController);
+router.delete('/wish', validateToken, deleteWishController);
 
 module.exports = router;

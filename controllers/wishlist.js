@@ -1,4 +1,3 @@
-const { isLogin } = require('../middleware/auth');
 const {
   getWishService,
   createWishService,
@@ -9,7 +8,7 @@ const {
 const getWishController = async (req, res, next) => {
   try {
     console.log(req.userId, 'userId');
-    const userId = req.params.id;
+    const userId = req.userId;
     const wish = await getWishService(userId);
     return res.status(201).json({ data: wish });
   } catch (err) {
@@ -20,7 +19,8 @@ const getWishController = async (req, res, next) => {
 
 const createWishController = async (req, res, next) => {
   try {
-    const { user_id, product_id } = req.body;
+    const user_id = req.userId;
+    const { product_id } = req.body;
     await createWishService(user_id, product_id);
     return res.status(201).json({ message: 'wishlist item is added' });
   } catch (err) {
@@ -31,7 +31,8 @@ const createWishController = async (req, res, next) => {
 
 const deleteWishController = async (req, res, next) => {
   try {
-    const { user_id, product_id } = req.body;
+    const user_id = req.userId;
+    const { product_id } = req.body;
     await deleteWishService(user_id, product_id);
     return res.status(201).json({ message: 'wishlist item is deleted' });
   } catch (err) {

@@ -9,10 +9,10 @@ const getStylesController = async (req, res, next) => {
     const keyword = req.query.sort;
     console.log('keyword', keyword);
     const styles = await getStylesService(keyword);
-    console.log('styles', styles);
+    'styles', styles;
     return res.status(201).json({ data: styles });
   } catch (err) {
-    console.log(err);
+    err;
     next(err);
   }
 };
