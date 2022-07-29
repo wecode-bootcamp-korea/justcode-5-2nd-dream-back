@@ -1,12 +1,12 @@
-const saleServices = require('../services/sale');
+const sellServices = require('../services/sale');
 
-const postsale = async (req, res) => {
+const createSell = async (req, res) => {
   try {
     const price = req.body.price;
     const user_id = req.body.user_id;
     const product_detail_id = req.body.product_detail_id;
     const product_id = req.body.product_id;
-    const sale = await saleServices.postsale(
+    const sell = await sellServices.createSell(
       price,
       user_id,
       product_detail_id,
@@ -18,4 +18,4 @@ const postsale = async (req, res) => {
   }
 };
 
-module.exports = { postsale };
+module.exports = { createSell };

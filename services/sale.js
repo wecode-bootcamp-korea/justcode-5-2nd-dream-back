@@ -1,7 +1,7 @@
-const salemodels = require('../models/sale');
+const sallmodels = require('../models/sale');
 
-async function postsale(price, user_id, product_detail_id, product_id) {
-  return await salemodels.postsale(
+async function createSell(price, user_id, product_detail_id, product_id) {
+  return await sallmodels.createSell(
     price,
     user_id,
     product_detail_id,
@@ -10,5 +10,5 @@ async function postsale(price, user_id, product_detail_id, product_id) {
 }
 
 module.exports = {
-  postsale,
+  createSell,
 };
