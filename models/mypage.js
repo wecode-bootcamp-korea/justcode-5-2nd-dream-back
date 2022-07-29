@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function getMypageByUserId(userId) {
-  const dbMypage = await prisma.$queryRaw`
+  return await prisma.$queryRaw`
   SELECT
     u.id,
     u.email,
@@ -16,46 +16,40 @@ async function getMypageByUserId(userId) {
   WHERE u.id = ${userId}
   GROUP BY u.id
   `;
-  return dbMypage;
 }
 
 async function putMypageByuserId(userId, name) {
-  const dbMypage = await prisma.$queryRaw`
+  return await prisma.$queryRaw`
   UPDATE user SET name=${name} WHERE user.id=${userId};
   `;
-  return dbMypage;
 }
 
 async function putMyPageByPhone(userId, phone) {
-  const dbMypage = await prisma.$queryRaw`
+  return await prisma.$queryRaw`
   UPDATE user SET phone=${phone} WHERE id=${userId};
   `;
-  return dbMypage;
 }
 
 async function postMyPageAdd(address, userId) {
-  const dbMypage = await prisma.$queryRaw`
+  return await prisma.$queryRaw`
   INSERT INTO address(address,user_id) values (${address},${userId})
   `;
-  return dbMypage;
 }
 
 async function putMyPageAdd(id, address) {
-  const dbMypage = await prisma.$queryRaw`
+  return await prisma.$queryRaw`
   UPDATE address SET address=${address} WHERE id=${id} ;
   `;
-  return dbMypage;
 }
 
 async function deleteMyPageAdd(id) {
-  const dbMypage = await prisma.$queryRaw`
+  return await prisma.$queryRaw`
   DELETE FROM address WHERE id=${id} ;
   `;
-  return dbMypage;
 }
 
 async function getpurchasehistory(purchaseId) {
-  const dbMypage = await prisma.$queryRaw`
+  return await prisma.$queryRaw`
   SELECT
     u.id,
     s.product_id,
@@ -77,11 +71,10 @@ async function getpurchasehistory(purchaseId) {
   LEFT JOIN product_images as pi on p.id = pi.id
   WHERE s.purchase_id = ${purchaseId}
   `;
-  return dbMypage;
 }
 
 async function getSaleHistory(saleId) {
-  const dbMypage = await prisma.$queryRaw`
+  return await prisma.$queryRaw`
   SELECT
     u.id,
     s.product_id,
@@ -104,7 +97,6 @@ async function getSaleHistory(saleId) {
   LEFT JOIN product_images as pi on p.id = pi.id
   WHERE s.user_id = ${saleId}
   `;
-  return dbMypage;
 }
 
 module.exports = {
