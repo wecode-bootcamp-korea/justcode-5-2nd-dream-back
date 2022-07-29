@@ -17,7 +17,7 @@ RUN npm install
 # 현재 경로에 존재하는 모든 소스파일을 이미지에 복사
 COPY . .
 
-
+ADD .env .
 ## Run the application on the port 8000
 # 8000번 포트를 외부에 개방하도록 설정
 EXPOSE 10010
