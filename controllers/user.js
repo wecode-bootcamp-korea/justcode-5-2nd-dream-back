@@ -55,7 +55,7 @@ const kakaoLogin = async (req, res) => {
     const code = req.query.code;
     const result = await userService.kakaoLogin(code);
     res.redirect(
-      `http://localhost:3000?token=${result.token}&userId=${result.id}&email=${result.email}&nickname=${result.nickname}&profileImage=${result.profileImage}`
+      `http://15.165.204.101:3000/?token=${result.token}&userId=${result.id}&email=${result.email}&nickname=${result.nickname}&profileImage=${result.profileImage}`
     );
   } catch (error) {
     res.status(400).json({ message: error.message });
