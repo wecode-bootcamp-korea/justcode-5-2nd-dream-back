@@ -63,7 +63,6 @@ model product_detail {
   product    product? @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_detail_product_id_product_id")
   size       size?    @relation(fields: [size_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_product_detail_size_id_size_id")
   sell       sell[]
-  wish       wish[]
 
   @@index([product_id], map: "fk_product_detail_product_id_product_id")
   @@index([size_id], map: "fk_product_detail_size_id_size_id")
@@ -192,15 +191,12 @@ model user {
 }
 
 model wish {
-  id                Int             @id @default(autoincrement())
-  product_detail_id Int?
-  product_id        Int?
-  user_id           Int?
-  product_detail    product_detail? @relation(fields: [product_detail_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_wish_product_detail_id_product_detail_id")
-  product           product?        @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_wish_product_id_product_id")
-  user              user?           @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_wish_user_id_user_id")
+  id         Int      @id @default(autoincrement())
+  product_id Int?
+  user_id    Int?
+  product    product? @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_wish_product_id_product_id")
+  user       user?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_wish_user_id_user_id")
 
-  @@index([product_detail_id], map: "fk_wish_product_detail_id_product_detail_id")
   @@index([user_id], map: "fk_wish_user_id_user_id")
   @@index([product_id], map: "fk_wish_product_id_product_id")
 }
