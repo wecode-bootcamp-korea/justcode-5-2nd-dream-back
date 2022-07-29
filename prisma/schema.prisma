@@ -81,13 +81,13 @@ model product_images {
 model sell {
   id                          Int             @id @default(autoincrement())
   price                       Int?
-  created_at                  DateTime?       @default(now()) @db.DateTime(0)
-  purchase_time               DateTime?       @db.DateTime(0)
   user_id                     Int?
   product_detail_id           Int?
   product_id                  Int?
   sell_status_id              Int?
   purchase_id                 Int?
+  purchase_time               DateTime?       @db.DateTime(0)
+  created_at                  DateTime?       @default(now()) @db.DateTime(0)
   product_detail              product_detail? @relation(fields: [product_detail_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sell_product_detail_id_product_detail_id")
   product                     product?        @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sell_product_id_product_id")
   user_sell_purchase_idTouser user?           @relation("sell_purchase_idTouser", fields: [purchase_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sell_purchase_id_user_id")

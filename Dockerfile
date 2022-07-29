@@ -18,9 +18,10 @@ RUN npm install
 COPY . .
 
 ADD .env .
+
 ## Run the application on the port 8000
 # 8000번 포트를 외부에 개방하도록 설정
-EXPOSE 10010
+EXPOSE 8000
 
 # === 도커가 이미지를 빌드할 때의 명렁어 
 
