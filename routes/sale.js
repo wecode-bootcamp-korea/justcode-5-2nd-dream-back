@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { postsale } = require('../controllers/sale');
+const { createSell } = require('../controllers/sale');
 
-router.post('/sale', postsale);
+router.post('/sale', createSell);
 module.exports = router;
