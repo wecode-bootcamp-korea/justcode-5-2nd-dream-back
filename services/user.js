@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const userRepository = require('../models/user');
 const { createError } = require('../module/createError');
+const dayjs = require('dayjs');
+const now = dayjs();
 
 const salt = bcrypt.genSaltSync();
 
@@ -31,6 +33,7 @@ async function login(email, password) {
     const userDto = {
       id: userId,
       token,
+      exp: now.add(1, 'day').format(),
     };
     return userDto;
   } else {
