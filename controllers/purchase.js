@@ -11,7 +11,7 @@ const getInformation = async (req, res) => {
   }
 };
 
-const putpurchase = async (req, res) => {
+const putpurchase = async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const sellId = req.params.sellId;
