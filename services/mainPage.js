@@ -1,11 +1,15 @@
-const { displayMain } = require('../models/mainPage');
+const { getJustDropped } = require('../models/sale');
+const { getProducts } = require('../models/product');
+const { getStyleInfo } = require('../models/style');
 
-const displayInfo = async userId => {
-  const [justDropList, popularList, styles] = await displayMain(userId);
-  for (let i = 0; i < popularList.length; i++) {
-    popularList[i].sell_num = parseInt(popularList[i].sell_num);
-  }
+const getMainInfo = async userId => {
+  const justDropList = await getJustDropped(userId);
+  const popularList = await getProducts();
+  const styles = await getStyleInfo();
+  // for (let i = 0; i < popularList.length; i++) {
+  //   popularList[i].sell_num = parseInt(popularList[i].sell_num);
+  // }
   return [justDropList, popularList, styles];
 };
 
-module.exports = { displayInfo };
+module.exports = { getMainInfo };

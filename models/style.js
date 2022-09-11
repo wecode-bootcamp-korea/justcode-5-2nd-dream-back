@@ -48,13 +48,14 @@ async function getStyles(keyword) {
 async function getStyleInfo() {
   const styles = prisma.$queryRaw`SELECT user.email AS user_email, user.image AS user_image, style_image.style_id, style_image.image_url
   FROM style 
-  LEFT JOIN user ON style.user_id = user.id 
-  LEFT JOIN 
+  JOIN user ON style.user_id = user.id 
+  JOIN 
   (SELECT style_id,
     url AS image_url 
     FROM style_image 
     WHERE id IN (SELECT MAX(id) 
     FROM style_image GROUP BY style_id)) style_image ON style.id = style_image.style_id LIMIT 12`;
+  return styles;
 }
 
 async function addStyleLike(likeDTO) {
