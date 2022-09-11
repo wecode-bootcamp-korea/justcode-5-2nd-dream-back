@@ -7,7 +7,6 @@ const {
 
 const getWishController = async (req, res, next) => {
   try {
-    // console.log(req.userId, 'userId');
     const userId = req.userId;
     const wish = await getWishService(userId);
     return res.status(201).json({ data: wish });
