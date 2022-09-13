@@ -66,12 +66,8 @@ const deleteAddress = async (req, res) => {
 
 const getpurchasehistory = async (req, res) => {
   try {
-    const user_id = req.params.user_id;
-    const purchaseId = req.params.purchaseId;
-    const purchasehistory = await mypageServices.getpurchasehistory(
-      user_id,
-      purchaseId
-    );
+    const user_id = req.params.userId;
+    const purchasehistory = await mypageServices.getpurchasehistory(user_id);
     return res.status(200).json({ data: purchasehistory });
   } catch (err) {
     next(err);

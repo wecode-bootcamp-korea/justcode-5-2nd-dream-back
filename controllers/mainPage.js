@@ -1,20 +1,20 @@
 const jwt = require('jsonwebtoken');
-const { displayInfo } = require('../services/mainPage');
+const { getMainInfo } = require('../services/mainPage');
 
 const mainPageController = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
     if (token !== 'null') {
       const user = jwt.verify(token, process.env.SECRET_KEY);
-      const [justDropList, popularList, styles] = await displayInfo(user.id);
+      const [justDropList, popularList, styles] = await getMainInfo(user.id);
       return res
-        .status(201)
+        .status(200)
         .json({ data: [justDropList, popularList, styles] });
     } else {
       userId = '';
-      const [justDropList, popularList, styles] = await displayInfo(userId);
+      const [justDropList, popularList, styles] = await getMainInfo(userId);
       return res
-        .status(201)
+        .status(200)
         .json({ data: [justDropList, popularList, styles] });
     }
   } catch (err) {
